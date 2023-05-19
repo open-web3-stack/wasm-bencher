@@ -1,0 +1,47 @@
+[package]
+name = "wasm-bencher-test"
+repository = "https://github.com/open-web3-stack/open-runtime-module-library/tree/master/bencher/test"
+license = "Apache-2.0"
+version = "0.5.0"
+publish = false
+authors = ["Laminar Developers <hello@laminar.one>"]
+edition = "2021"
+
+[[bench]]
+name = "foo"
+harness = false
+required-features = ["wasm-bench"]
+
+[dependencies]
+serde = { version = "1.0.163", optional = true }
+scale-info = { version = "2.7.0", default-features = false, features = ["derive"] }
+codec = { package = "parity-scale-codec", version = "3.0.0", features = ["derive"], default-features = false }
+frame-support = { version = "21.0.0", default-features = false }
+frame-system = { version = "21.0.0", default-features = false }
+sp-runtime = { version = "23.0.0", default-features = false }
+sp-core = { version = "20.0.0", default-features = false }
+sp-std = { version = "7.0.0", default-features = false }
+wasm-bencher = { path = "..", version = "*", default-features = false }
+weight-meter = { path = "../../weight-meter", version = "*", default-features = false }
+
+[dev-dependencies]
+sp-io = "22.0.0"
+
+[features]
+default = ["std"]
+std = [
+    "serde",
+    "scale-info/std",
+    "codec/std",
+    "frame-support/std",
+    "frame-system/std",
+    "sp-runtime/std",
+    "sp-core/std",
+    "sp-std/std",
+    "wasm-bencher/std",
+    "weight-meter/std",
+]
+wasm-bench = [
+    "wasm-bencher/wasm-bench",
+    "weight-meter/wasm-bench",
+]

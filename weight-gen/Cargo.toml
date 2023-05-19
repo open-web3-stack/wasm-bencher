@@ -1,0 +1,17 @@
+[package]
+name = "weight-gen"
+description = "CLI for generating weight from bencher output"
+license = "Apache-2.0"
+version = "0.5.0"
+authors = ["Laminar Developers <hello@laminar.one>"]
+edition = "2021"
+
+[dependencies]
+serde = { version = "1.0.163", features = ["derive"] }
+serde_json = "1.0"
+clap = "4.2.7"
+handlebars = "4.3.7"
+
+[features]
+default = ["std"]
+std = []

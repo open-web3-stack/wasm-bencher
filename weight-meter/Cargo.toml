@@ -1,0 +1,35 @@
+[package]
+name = "weight-meter"
+version = "0.5.0"
+license = "Apache-2.0"
+authors = ["Laminar Developers <hello@laminar.one>"]
+edition = "2021"
+
+[package.metadata.docs.rs]
+targets = ["x86_64-unknown-linux-gnu"]
+
+[dependencies]
+weight-meter-procedural = { path = "weight-meter-procedural", version = "*", default-features = false }
+
+[dev-dependencies]
+serde = "1.0.163"
+scale-info = { version = "2.7.0", features = ["derive"] }
+codec = { package = "parity-scale-codec", version = "3.5.0" }
+sp-runtime = "23.0.0"
+sp-io = "22.0.0"
+sp-std = "7.0.0"
+
+frame-support = "21.0.0"
+frame-system = "21.0.0"
+pallet-balances = "21.0.0"
+
+wasm-bencher = { path = "../bencher", version = "*" }
+
+[features]
+default = ["std"]
+std = [
+	"weight-meter-procedural/std",
+]
+wasm-bench = [
+	"weight-meter-procedural/wasm-bench",
+]
