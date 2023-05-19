@@ -15,7 +15,7 @@ required-features = ["wasm-bench"]
 [dependencies]
 serde = { version = "1.0.163", optional = true }
 scale-info = { version = "2.7.0", default-features = false, features = ["derive"] }
-codec = { package = "parity-scale-codec", version = "3.0.0", features = ["derive"], default-features = false }
+codec = { package = "parity-scale-codec", version = "^3.0.0", features = ["derive"], default-features = false }
 frame-support = { version = "21.0.0", default-features = false }
 frame-system = { version = "21.0.0", default-features = false }
 sp-runtime = { version = "23.0.0", default-features = false }

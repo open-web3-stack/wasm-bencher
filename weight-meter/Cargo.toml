@@ -14,7 +14,7 @@ weight-meter-procedural = { path = "weight-meter-procedural", version = "*", def
 [dev-dependencies]
 serde = "1.0.163"
 scale-info = { version = "2.7.0", features = ["derive"] }
-codec = { package = "parity-scale-codec", version = "3.5.0" }
+codec = { package = "parity-scale-codec", version = "^3.0.0" }
 sp-runtime = "23.0.0"
 sp-io = "22.0.0"
 sp-std = "7.0.0"
