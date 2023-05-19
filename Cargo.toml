@@ -1,0 +1,16 @@
+[workspace]
+members = [
+	"bencher",
+	"bencher/bencher-procedural",
+	"bencher/test",
+	"weight-gen",
+	"weight-meter",
+	"weight-meter/weight-meter-procedural",
+]
+
+exclude = ["bencher/test"]
+
+resolver = "2"
+
+[profile.dev]
+split-debuginfo = "unpacked"
