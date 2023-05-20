@@ -4,11 +4,24 @@ use crate::{
 	Bencher,
 };
 use codec::Decode;
-use frame_support::traits::StorageInfo;
 use linregress::{FormulaRegressionBuilder, RegressionDataBuilder};
 use serde::{Deserialize, Serialize};
 use sp_core::hexdisplay::HexDisplay;
 use std::{io::Write, string::String, time::Duration};
+
+#[derive(Serialize, Deserialize, Default, Debug, Clone)]
+pub struct StorageMetadata {
+	/// Encoded string of pallet name.
+	pub pallet_name: String,
+	/// Encoded string of storage name.
+	pub storage_name: String,
+	/// The prefix of the storage. All keys after the prefix are considered part of this storage.
+	pub prefix: Vec<u8>,
+	/// The maximum number of values in the storage, or none if no maximum specified.
+	pub max_values: Option<u32>,
+	/// The maximum size of key/values in the storage, or none if no maximum specified.
+	pub max_size: Option<u32>,
+}
 
 #[derive(Serialize, Deserialize, Default, Debug, Clone)]
 pub struct BenchData {
@@ -39,11 +52,7 @@ pub fn parse(output: Vec<u8>) -> BenchData {
 	let data = RegressionDataBuilder::new().build_from(data).unwrap();
 	let formula = "Y ~ X";
 
-	let model = FormulaRegressionBuilder::new()
-		.data(&data)
-		.formula(formula)
-		.fit()
-		.unwrap();
+	let model = FormulaRegressionBuilder::new().data(&data).formula(formula).fit().unwrap();
 
 	let mut total_reads = 0u32;
 	let mut total_writes = 0u32;
@@ -90,11 +99,15 @@ pub fn print_summary(data: &BenchData) {
 	);
 
 	for warning in &data.warnings {
-		println!("{} {}", yellow_bold("WARNING:"), yellow_bold(&warning.to_string()));
+		println!(
+			"{} {}",
+			yellow_bold("WARNING:"),
+			yellow_bold(&warning.to_string())
+		);
 	}
 }
 
-pub fn save_output_json(data: Vec<BenchData>, storage_infos: Vec<StorageInfo>) {
+pub fn save_output_json(data: Vec<BenchData>, storage_infos: Vec<StorageMetadata>) {
 	let data = data
 		.into_iter()
 		.map(|x| {
@@ -103,11 +116,17 @@ pub fn save_output_json(data: Vec<BenchData>, storage_infos: Vec<StorageInfo>) {
 				.into_iter()
 				.map(|(prefix, reads, writes)| {
 					if let Some(info) = storage_infos.iter().find(|x| x.prefix.eq(&prefix)) {
-						let pallet = String::from_utf8(info.pallet_name.clone()).unwrap();
-						let name = String::from_utf8(info.storage_name.clone()).unwrap();
-						format!("{}::{} (r: {}, w: {})", pallet, name, reads, writes)
+						format!(
+							"{}::{} (r: {}, w: {})",
+							info.pallet_name, info.storage_name, reads, writes
+						)
 					} else {
-						format!("Unknown 0x{} (r: {}, w: {})", HexDisplay::from(&prefix), reads, writes)
+						format!(
+							"Unknown 0x{} (r: {}, w: {})",
+							HexDisplay::from(&prefix),
+							reads,
+							writes
+						)
 					}
 				})
 				.collect();
@@ -127,7 +146,8 @@ pub fn save_output_json(data: Vec<BenchData>, storage_infos: Vec<StorageInfo>) {
 	let outdir = std::env::var("CARGO_MANIFEST_DIR").unwrap();
 	let pkg_name = get_package_name().replace('-', "_");
 	let json_path = format!("{outdir}/target/{pkg_name}_bench_data.json");
-	let mut writer = std::io::BufWriter::new(std::fs::File::create(std::path::Path::new(&json_path)).unwrap());
+	let mut writer =
+		std::io::BufWriter::new(std::fs::File::create(std::path::Path::new(&json_path)).unwrap());
 	serde_json::to_writer_pretty(&mut writer, &data).unwrap();
 	writer.write_all(b"\n").unwrap();
 	writer.flush().unwrap();

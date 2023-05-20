@@ -19,13 +19,15 @@ fn used_weight_works() {
 #[test]
 fn used_weight_branch_works() {
 	new_test_ext().execute_with(|| {
-		let result: PostDispatchInfo = TestModule::expect_100_or_200(RuntimeOrigin::signed(100), false).unwrap();
+		let result: PostDispatchInfo =
+			TestModule::expect_100_or_200(RuntimeOrigin::signed(100), false).unwrap();
 		// Check used weight is correct
 		assert_eq!(Some(Weight::from_parts(100, 0)), result.actual_weight);
 		// Check that the method ran correctly
 		assert_eq!(Some(100), TestModule::something());
 
-		let result: PostDispatchInfo = TestModule::expect_100_or_200(RuntimeOrigin::signed(100), true).unwrap();
+		let result: PostDispatchInfo =
+			TestModule::expect_100_or_200(RuntimeOrigin::signed(100), true).unwrap();
 		// Check used weight is correct
 		assert_eq!(Some(Weight::from_parts(200, 0)), result.actual_weight);
 		// Check that the method ran correctly
@@ -36,7 +38,8 @@ fn used_weight_branch_works() {
 #[test]
 fn used_weight_nested_calls_works() {
 	new_test_ext().execute_with(|| {
-		let result: PostDispatchInfo = TestModule::nested_inner_methods(RuntimeOrigin::signed(100)).unwrap();
+		let result: PostDispatchInfo =
+			TestModule::nested_inner_methods(RuntimeOrigin::signed(100)).unwrap();
 		// Check used weight is correct
 		assert_eq!(Some(Weight::from_parts(300, 0)), result.actual_weight);
 	});
@@ -45,7 +48,8 @@ fn used_weight_nested_calls_works() {
 #[test]
 fn exceed_max_weight_works() {
 	new_test_ext().execute_with(|| {
-		let result: PostDispatchInfo = TestModule::expect_max_weight(RuntimeOrigin::signed(100)).unwrap();
+		let result: PostDispatchInfo =
+			TestModule::expect_max_weight(RuntimeOrigin::signed(100)).unwrap();
 		// Check used weight is correct
 		assert_eq!(Some(Weight::from_parts(u64::MAX, 0)), result.actual_weight);
 	});

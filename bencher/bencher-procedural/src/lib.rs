@@ -2,7 +2,12 @@ use proc_macro::TokenStream;
 
 #[proc_macro_attribute]
 pub fn benchmarkable(_attr: TokenStream, item: TokenStream) -> TokenStream {
-	let syn::ItemFn { attrs, vis, sig, block } = syn::parse(item).unwrap();
+	let syn::ItemFn {
+		attrs,
+		vis,
+		sig,
+		block,
+	} = syn::parse(item).unwrap();
 	(quote::quote! {
 		#(#attrs)*
 		#vis #sig {

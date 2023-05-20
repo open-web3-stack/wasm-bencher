@@ -35,7 +35,7 @@ pub fn build() -> std::io::Result<Vec<u8>> {
 		Err(err_msg) => {
 			eprintln!("{}", err_msg);
 			std::process::exit(1);
-		}
+		},
 	};
 
 	let (wasm_binary, bloaty) = wasm_project::create_and_compile(

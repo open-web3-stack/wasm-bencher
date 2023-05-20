@@ -76,7 +76,12 @@ where
 		self.ext.kill_child_storage(child_info, limit, maybe_cursor)
 	}
 
-	fn clear_prefix(&mut self, prefix: &[u8], limit: Option<u32>, maybe_cursor: Option<&[u8]>) -> MultiRemovalResults {
+	fn clear_prefix(
+		&mut self,
+		prefix: &[u8],
+		limit: Option<u32>,
+		maybe_cursor: Option<&[u8]>,
+	) -> MultiRemovalResults {
 		self.tracker.on_clear_prefix(prefix, limit);
 		self.ext.clear_prefix(prefix, limit, maybe_cursor)
 	}
@@ -97,7 +102,12 @@ where
 		self.ext.place_storage(key, value);
 	}
 
-	fn place_child_storage(&mut self, child_info: &ChildInfo, key: Vec<u8>, value: Option<Vec<u8>>) {
+	fn place_child_storage(
+		&mut self,
+		child_info: &ChildInfo,
+		key: Vec<u8>,
+		value: Option<Vec<u8>>,
+	) {
 		self.tracker.on_update_child_storage(child_info, key.clone());
 		self.ext.place_child_storage(child_info, key, value);
 	}
@@ -106,7 +116,11 @@ where
 		self.ext.storage_root(state_version)
 	}
 
-	fn child_storage_root(&mut self, child_info: &ChildInfo, state_version: StateVersion) -> Vec<u8> {
+	fn child_storage_root(
+		&mut self,
+		child_info: &ChildInfo,
+		state_version: StateVersion,
+	) -> Vec<u8> {
 		self.ext.child_storage_root(child_info, state_version)
 	}
 
@@ -186,7 +200,10 @@ where
 		self.ext.register_extension_with_type_id(type_id, extension)
 	}
 
-	fn deregister_extension_by_type_id(&mut self, type_id: TypeId) -> Result<(), sp_externalities::Error> {
+	fn deregister_extension_by_type_id(
+		&mut self,
+		type_id: TypeId,
+	) -> Result<(), sp_externalities::Error> {
 		self.ext.deregister_extension_by_type_id(type_id)
 	}
 }

@@ -16,7 +16,8 @@ pub type Header = sp_runtime::generic::Header<BlockNumber, BlakeTwo256>;
 
 pub type SignedExtra = (frame_system::CheckWeight<Runtime>,);
 
-pub type UncheckedExtrinsic = sp_runtime::generic::UncheckedExtrinsic<Address, RuntimeCall, Signature, SignedExtra>;
+pub type UncheckedExtrinsic =
+	sp_runtime::generic::UncheckedExtrinsic<Address, RuntimeCall, Signature, SignedExtra>;
 
 pub type Block = sp_runtime::generic::Block<Header, UncheckedExtrinsic>;
 
@@ -67,9 +68,7 @@ pub struct ExtBuilder;
 #[cfg(test)]
 impl ExtBuilder {
 	pub fn build(self) -> sp_io::TestExternalities {
-		let t = frame_system::GenesisConfig::default()
-			.build_storage::<Runtime>()
-			.unwrap();
+		let t = frame_system::GenesisConfig::default().build_storage::<Runtime>().unwrap();
 
 		t.into()
 	}

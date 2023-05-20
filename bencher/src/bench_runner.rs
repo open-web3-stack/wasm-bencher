@@ -2,14 +2,21 @@ use super::{
 	bench_ext::BenchExt,
 	tracker::{BenchTracker, BenchTrackerExt},
 };
-use frame_support::sp_runtime::traits::Block;
 use sc_executor::{WasmExecutionMethod, WasmExecutor, WasmtimeInstantiationStrategy};
 use sc_executor_common::runtime_blob::RuntimeBlob;
 use sp_externalities::Extensions;
 use sp_state_machine::{Ext, OverlayedChanges, StorageTransactionCache};
 use sp_std::sync::Arc;
 
-type ComposeHostFunctions = (sp_io::SubstrateHostFunctions, super::bench::HostFunctions);
+type Header =
+	frame_support::sp_runtime::generic::Header<u32, frame_support::sp_runtime::traits::BlakeTwo256>;
+type Block =
+	frame_support::sp_runtime::generic::Block<Header, frame_support::sp_runtime::OpaqueExtrinsic>;
+
+type ComposeHostFunctions = (
+	crate::sp_io::SubstrateHostFunctions,
+	super::bench::HostFunctions,
+);
 
 fn executor() -> WasmExecutor<ComposeHostFunctions> {
 	WasmExecutor::<ComposeHostFunctions>::new(
@@ -24,14 +31,16 @@ fn executor() -> WasmExecutor<ComposeHostFunctions> {
 }
 
 /// Run benches
-pub fn run<B: Block>(
+pub fn run(
 	wasm_code: &[u8],
 	method: &str,
 	call_data: &[u8],
 ) -> Result<Vec<u8>, sc_executor_common::error::Error> {
 	let mut overlay = OverlayedChanges::default();
 	let mut cache = StorageTransactionCache::default();
-	let state = sc_client_db::BenchmarkingState::<B>::new(Default::default(), Default::default(), true, true)?;
+
+	let state =
+		sc_client_db::BenchmarkingState::<Block>::new(Default::default(), None, true, true)?;
 
 	let tracker = Arc::new(BenchTracker::new());
 	let tracker_ext = BenchTrackerExt(Arc::clone(&tracker));

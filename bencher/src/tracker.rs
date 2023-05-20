@@ -140,10 +140,10 @@ impl BenchTracker {
 					return;
 				}
 				info.read.mark_important();
-			}
+			},
 			None => {
 				main_keys.insert(key, AccessInfo::read(redundant));
-			}
+			},
 		};
 	}
 
@@ -163,10 +163,10 @@ impl BenchTracker {
 					return;
 				}
 				info.written.mark_important();
-			}
+			},
 			None => {
 				main_keys.insert(key, AccessInfo::written(redundant));
-			}
+			},
 		};
 	}
 
@@ -187,17 +187,22 @@ impl BenchTracker {
 			match clear_prefixes.get_mut(&key) {
 				Some(n) => {
 					*n += limit;
-				}
+				},
 				None => {
 					clear_prefixes.insert(key, limit);
-				}
+				},
 			};
 		} else {
 			self.warn(Warning::ClearPrefixWithoutLimit);
 		}
 	}
 
-	pub fn on_clear_child_prefix(&self, _child_info: &ChildInfo, _prefix: &[u8], _limit: Option<u32>) {
+	pub fn on_clear_child_prefix(
+		&self,
+		_child_info: &ChildInfo,
+		_prefix: &[u8],
+		_limit: Option<u32>,
+	) {
 		if self.is_redundant() {
 			return;
 		}

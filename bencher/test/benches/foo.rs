@@ -1,2 +1,1 @@
-use wasm_bencher_test::mock::{AllPalletsWithSystem, Runtime};
-wasm_bencher::main!(Runtime, AllPalletsWithSystem);
+wasm_bencher::main!({ wasm_bencher_test::mock::AllPalletsWithSystem::storage_info() });

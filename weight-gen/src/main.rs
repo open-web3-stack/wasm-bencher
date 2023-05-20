@@ -89,9 +89,7 @@ impl handlebars::HelperDef for JoinHelper {
 
 fn parse_stdio() -> Option<Vec<BenchData>> {
 	let mut buffer = String::new();
-	std::io::stdin()
-		.read_to_string(&mut buffer)
-		.expect("Unable to read from stdin");
+	std::io::stdin().read_to_string(&mut buffer).expect("Unable to read from stdin");
 
 	let file_path = buffer
 		.split_ascii_whitespace()
