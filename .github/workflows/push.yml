@@ -4,6 +4,8 @@ name: Checks
 jobs:
   checks:
     runs-on: ubuntu-latest
+    env:
+      HOST: machine
     steps:
       - uses: actions/checkout@v3
       - name: Install minimal stable with clippy and rustfmt
