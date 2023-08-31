@@ -2,7 +2,7 @@ use super::{
 	bench_ext::BenchExt,
 	tracker::{BenchTracker, BenchTrackerExt},
 };
-use sc_executor::{WasmExecutionMethod, WasmExecutor, WasmtimeInstantiationStrategy};
+use sc_executor::WasmExecutor;
 use sc_executor_common::runtime_blob::RuntimeBlob;
 use sp_externalities::Extensions;
 use sp_state_machine::{Ext, OverlayedChanges, StorageTransactionCache};
@@ -19,15 +19,10 @@ type ComposeHostFunctions = (
 );
 
 fn executor() -> WasmExecutor<ComposeHostFunctions> {
-	WasmExecutor::<ComposeHostFunctions>::new(
-		WasmExecutionMethod::Compiled {
-			instantiation_strategy: WasmtimeInstantiationStrategy::PoolingCopyOnWrite,
-		},
-		Default::default(),
-		1,
-		None,
-		0,
-	)
+	WasmExecutor::<ComposeHostFunctions>::builder()
+		.with_max_runtime_instances(1)
+		.with_runtime_cache_size(0)
+		.build()
 }
 
 /// Run benches

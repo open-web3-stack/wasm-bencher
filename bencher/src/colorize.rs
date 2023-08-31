@@ -23,7 +23,7 @@ pub fn yellow_bold(message: &str) -> String {
 }
 
 pub fn cyan(message: &str) -> String {
-	if crate::build_wasm::color_output_enabled() {
+	if color_output_enabled() {
 		ansi_term::Color::Cyan.paint(message).to_string()
 	} else {
 		message.into()
@@ -31,7 +31,7 @@ pub fn cyan(message: &str) -> String {
 }
 
 pub fn green_bold(message: &str) -> String {
-	if crate::build_wasm::color_output_enabled() {
+	if color_output_enabled() {
 		ansi_term::Color::Green.bold().paint(message).to_string()
 	} else {
 		message.into()
