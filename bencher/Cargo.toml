@@ -13,7 +13,7 @@ build-helper = { version = "^0.1", optional = true }
 cargo_metadata = { version = "^0.17", optional = true }
 strum = { version = "^0.25", features = ["derive"], optional = true }
 filetime = { version = "^0.2", optional = true }
-wasm-opt = { version = "^0.112", optional = true }
+wasm-opt = { version = "^0.114", optional = true }
 parity-wasm = { version = "0.45", optional = true }
 tempfile = { version = "^3.5", optional = true }
 toml = { version = "^0.7", optional = true }
