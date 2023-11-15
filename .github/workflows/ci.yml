@@ -22,11 +22,7 @@ jobs:
             ~/.cargo/git/db/
           key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
       - name: Install toolchain
-        uses: dtolnay/rust-toolchain@nightly
-        with:
-          toolchain: stable
-          components: rustfmt, clippy
-          target: wasm32-unknown-unknown
+        uses:  actions-rust-lang/setup-rust-toolchain@v1
       - name: Run Clippy
         run: cargo clippy --all-targets --all-features -- -D warnings
       - name: Run Tests

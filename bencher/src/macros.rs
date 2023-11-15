@@ -140,7 +140,7 @@ macro_rules! main {
 
             // get list of bench methods
             let methods = $crate::bench_runner::run(&wasm[..], "available_bench_methods", &[]).unwrap();
-            let bench_methods = <Vec<String> as ::parity_scale_codec::Decode>::decode(&mut &methods[..]).unwrap();
+            let bench_methods = <Vec<String> as $crate::codec::Decode>::decode(&mut &methods[..]).unwrap();
             println!("\nRunning {} benches\n", bench_methods.len());
 
             let mut results: Vec<$crate::handler::BenchData> = vec![];
