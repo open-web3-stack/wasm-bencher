@@ -5,7 +5,7 @@ use super::{
 use sc_executor::WasmExecutor;
 use sc_executor_common::runtime_blob::RuntimeBlob;
 use sp_externalities::Extensions;
-use sp_state_machine::{Ext, OverlayedChanges, StorageTransactionCache};
+use sp_state_machine::{Ext, OverlayedChanges};
 use sp_std::sync::Arc;
 
 type Header =
@@ -32,7 +32,6 @@ pub fn run(
 	call_data: &[u8],
 ) -> Result<Vec<u8>, sc_executor_common::error::Error> {
 	let mut overlay = OverlayedChanges::default();
-	let mut cache = StorageTransactionCache::default();
 
 	let state =
 		sc_client_db::BenchmarkingState::<Block>::new(Default::default(), None, true, true)?;
@@ -43,7 +42,7 @@ pub fn run(
 	let mut extensions = Extensions::default();
 	extensions.register(tracker_ext);
 
-	let ext = Ext::<_, _>::new(&mut overlay, &mut cache, &state, Some(&mut extensions));
+	let ext = Ext::<_, _>::new(&mut overlay, &state, Some(&mut extensions));
 	let mut bench_ext = BenchExt::new(ext, tracker);
 
 	let blob = RuntimeBlob::uncompress_if_needed(wasm_code)?;

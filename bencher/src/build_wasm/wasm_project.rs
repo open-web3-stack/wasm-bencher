@@ -463,7 +463,7 @@ fn create_project(
 	}
 
 	let mut enabled_features = enabled_features.into_iter().collect::<HashSet<_>>();
-	enabled_features.extend(features_to_enable.into_iter());
+	enabled_features.extend(features_to_enable);
 
 	create_project_cargo_toml(
 		&wasm_project_folder,

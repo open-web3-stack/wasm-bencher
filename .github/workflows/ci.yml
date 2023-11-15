@@ -24,7 +24,7 @@ jobs:
       - name: Install toolchain
         uses: dtolnay/rust-toolchain@nightly
         with:
-          toolchain: nightly-2022-10-30
+          toolchain: stable
           components: rustfmt, clippy
           target: wasm32-unknown-unknown
       - name: Run Clippy
