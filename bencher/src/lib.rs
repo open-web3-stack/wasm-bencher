@@ -1,15 +1,17 @@
 #![cfg_attr(not(feature = "std"), no_std)]
 
 #[doc(hidden)]
-pub extern crate frame_support;
+pub use frame_support;
 #[doc(hidden)]
-pub extern crate paste;
+pub use paste;
 #[doc(hidden)]
-pub extern crate sp_core;
+pub use sp_core;
 #[doc(hidden)]
-pub extern crate sp_io;
+pub use sp_io;
 #[doc(hidden)]
-pub extern crate sp_std;
+pub use sp_std;
+#[doc(hidden)]
+pub use codec;
 
 mod bencher;
 mod macros;
