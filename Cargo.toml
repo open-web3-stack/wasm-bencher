@@ -16,18 +16,18 @@ resolver = "2"
 split-debuginfo = "unpacked"
 
 [workspace.dependencies]
-frame-support = { version = "25.0.0", default-features = false }
-frame-system = { version = "25.0.0", default-features = false }
-pallet-balances = { version = "25.0.0", default-features = false }
-sc-client-db = { version = "0.32.0", default-features = false }
-sc-executor = { version = "0.29.0", default-features = false }
-sc-executor-common = { version = "0.26.0", default-features = false }
-sp-core = { version = "25.0.0", default-features = false }
-sp-externalities = { version = "0.23.0", default-features = false }
-sp-io = { version = "27.0.0", default-features = false }
-sp-maybe-compressed-blob = { version = "9.0.0", default-features = false }
-sp-runtime = { version = "28.0.0", default-features = false }
-sp-runtime-interface = { version = "21.0.0", default-features = false }
-sp-state-machine = { version = "0.32.0", default-features = false }
-sp-std = { version = "12.0.0", default-features = false }
-sp-storage = { version = "17.0.0", default-features = false }
+frame-support = { version = "28.0.0", default-features = false }
+frame-system = { version = "28.0.0", default-features = false }
+pallet-balances = { version = "28.0.0", default-features = false }
+sc-client-db = { version = "0.35.0", default-features = false }
+sc-executor = { version = "0.32.0", default-features = false }
+sc-executor-common = { version = "0.29.0", default-features = false }
+sp-core = { version = "28.0.0", default-features = false }
+sp-externalities = { version = "0.25.0", default-features = false }
+sp-io = { version = "30.0.0", default-features = false }
+sp-maybe-compressed-blob = { version = "11.0.0", default-features = false }
+sp-runtime = { version = "31.0.0", default-features = false }
+sp-runtime-interface = { version = "24.0.0", default-features = false }
+sp-state-machine = { version = "0.35.0", default-features = false }
+sp-std = { version = "14.0.0", default-features = false }
+sp-storage = { version = "19.0.0", default-features = false }
