@@ -609,7 +609,7 @@ fn build_project(
 	let mut build_cmd = cargo_cmd.command();
 
 	let rustflags = format!(
-		"-C target-cpu=mvp -C target-feature=-sign-ext -C link-arg=--export-table {} {}",
+		"--cfg substrate_runtime -C target-cpu=mvp -C target-feature=-sign-ext -C link-arg=--export-table {} {}",
 		default_rustflags,
 		env::var(super::WASM_BUILD_RUSTFLAGS_ENV).unwrap_or_default(),
 	);
