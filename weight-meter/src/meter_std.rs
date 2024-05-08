@@ -5,10 +5,12 @@ use super::{Meter, Weight};
 use std::cell::RefCell;
 
 thread_local! {
-	static METER: RefCell<Meter> = RefCell::new(Meter {
-		used_weight: 0,
-		depth: 0,
-	});
+	static METER: RefCell<Meter> = const {
+		RefCell::new(Meter {
+			used_weight: 0,
+			depth: 0,
+		})
+	};
 }
 
 /// Start weight meter with base weight
