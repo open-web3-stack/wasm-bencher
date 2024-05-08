@@ -403,7 +403,7 @@ fn project_enabled_features(
 			// features already being present in nightly, we need this code to make
 			// runtimes compile with all the possible rustc versions.
 			if v.len() == 1
-				&& v.get(0).map_or(false, |v| *v == format!("dep:{}", f))
+				&& v.first().map_or(false, |v| *v == format!("dep:{}", f))
 				&& std_enabled.as_ref().map(|e| e.iter().any(|ef| ef == *f)).unwrap_or(false)
 			{
 				return false;
@@ -609,7 +609,7 @@ fn build_project(
 	let mut build_cmd = cargo_cmd.command();
 
 	let rustflags = format!(
-		"-C target-cpu=mvp -C target-feature=-sign-ext -C link-arg=--export-table {} {}",
+		"--cfg substrate_runtime -C target-cpu=mvp -C target-feature=-sign-ext -C link-arg=--export-table {} {}",
 		default_rustflags,
 		env::var(super::WASM_BUILD_RUSTFLAGS_ENV).unwrap_or_default(),
 	);

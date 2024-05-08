@@ -2,6 +2,7 @@ use super::{
 	bench_ext::BenchExt,
 	tracker::{BenchTracker, BenchTrackerExt},
 };
+use frame_support::sp_runtime::traits::HashingFor;
 use sc_executor::WasmExecutor;
 use sc_executor_common::runtime_blob::RuntimeBlob;
 use sp_externalities::Extensions;
@@ -34,7 +35,7 @@ pub fn run(
 	let mut overlay = OverlayedChanges::default();
 
 	let state =
-		sc_client_db::BenchmarkingState::<Block>::new(Default::default(), None, true, true)?;
+		sc_client_db::BenchmarkingState::<HashingFor<Block>>::new(Default::default(), None, true, true)?;
 
 	let tracker = Arc::new(BenchTracker::new());
 	let tracker_ext = BenchTrackerExt(Arc::clone(&tracker));
