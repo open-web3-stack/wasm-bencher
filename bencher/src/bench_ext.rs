@@ -36,32 +36,32 @@ where
 		self.ext.set_offchain_storage(key, value);
 	}
 
-	fn storage(&self, key: &[u8]) -> Option<Vec<u8>> {
+	fn storage(&mut self, key: &[u8]) -> Option<Vec<u8>> {
 		self.tracker.on_read_storage(key.to_vec());
 		self.ext.storage(key)
 	}
 
-	fn storage_hash(&self, key: &[u8]) -> Option<Vec<u8>> {
+	fn storage_hash(&mut self, key: &[u8]) -> Option<Vec<u8>> {
 		self.tracker.on_read_storage(key.to_vec());
 		self.ext.storage_hash(key)
 	}
 
-	fn child_storage_hash(&self, child_info: &ChildInfo, key: &[u8]) -> Option<Vec<u8>> {
+	fn child_storage_hash(&mut self, child_info: &ChildInfo, key: &[u8]) -> Option<Vec<u8>> {
 		self.tracker.on_read_child_storage(child_info, key.to_vec());
 		self.ext.child_storage_hash(child_info, key)
 	}
 
-	fn child_storage(&self, child_info: &ChildInfo, key: &[u8]) -> Option<Vec<u8>> {
+	fn child_storage(&mut self, child_info: &ChildInfo, key: &[u8]) -> Option<Vec<u8>> {
 		self.tracker.on_read_child_storage(child_info, key.to_vec());
 		self.ext.child_storage(child_info, key)
 	}
 
-	fn next_storage_key(&self, key: &[u8]) -> Option<Vec<u8>> {
+	fn next_storage_key(&mut self, key: &[u8]) -> Option<Vec<u8>> {
 		self.tracker.on_read_storage(key.to_vec());
 		self.ext.next_storage_key(key)
 	}
 
-	fn next_child_storage_key(&self, child_info: &ChildInfo, key: &[u8]) -> Option<Vec<u8>> {
+	fn next_child_storage_key(&mut self, child_info: &ChildInfo, key: &[u8]) -> Option<Vec<u8>> {
 		self.tracker.on_read_child_storage(child_info, key.to_vec());
 		self.ext.next_child_storage_key(child_info, key)
 	}
