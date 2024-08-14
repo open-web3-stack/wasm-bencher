@@ -16,18 +16,18 @@ resolver = "2"
 split-debuginfo = "unpacked"
 
 [workspace.dependencies]
-frame-support = { version = "31.0.0", default-features = false }
-frame-system = { version = "31.0.0", default-features = false }
-pallet-balances = { version = "31.0.0", default-features = false }
-sc-client-db = { version = "0.38.0", default-features = false }
-sc-executor = { version = "0.35.0", default-features = false }
-sc-executor-common = { version = "0.32.0", default-features = false }
-sp-core = { version = "31.0.0", default-features = false }
-sp-externalities = { version = "0.27.0", default-features = false }
-sp-io = { version = "33.0.0", default-features = false }
+frame-support = { version = "37.0.0", default-features = false }
+frame-system = { version = "37.0.0", default-features = false }
+pallet-balances = { version = "38.0.0", default-features = false }
+sc-client-db = { version = "0.44.0", default-features = false }
+sc-executor = { version = "0.40.0", default-features = false }
+sc-executor-common = { version = "0.35.0", default-features = false }
+sp-core = { version = "34.0.0", default-features = false }
+sp-externalities = { version = "0.29.0", default-features = false }
+sp-io = { version = "38.0.0", default-features = false }
 sp-maybe-compressed-blob = { version = "11.0.0", default-features = false }
-sp-runtime = { version = "34.0.0", default-features = false }
-sp-runtime-interface = { version = "26.0.0", default-features = false }
-sp-state-machine = { version = "0.38.0", default-features = false }
+sp-runtime = { version = "39.0.0", default-features = false }
+sp-runtime-interface = { version = "28.0.0", default-features = false }
+sp-state-machine = { version = "0.43.0", default-features = false }
 sp-std = { version = "14.0.0", default-features = false }
-sp-storage = { version = "20.0.0", default-features = false }
+sp-storage = { version = "21.0.0", default-features = false }
