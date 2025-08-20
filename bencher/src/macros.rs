@@ -20,7 +20,7 @@
 /// ```
 ///
 /// Create a file `benches/module_benches.rs` must be the same as bench name.
-/// ```.ignore
+/// ```ignore
 /// # run benches
 /// wasm_bencher::main!();
 /// # or, run benches with storage info, required by `wasm-bencher` to generate output json
