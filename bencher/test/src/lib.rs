@@ -1,3 +1,5 @@
+#![allow(clippy::useless_conversion)]
+
 #![cfg_attr(not(feature = "std"), no_std)]
 
 pub mod benches;

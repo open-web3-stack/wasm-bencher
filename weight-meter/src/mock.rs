@@ -1,3 +1,5 @@
+#![allow(clippy::useless_conversion)]
+
 #[frame_support::pallet]
 pub mod test_module {
 	use frame_support::{dispatch::DispatchResultWithPostInfo, pallet_prelude::*, weights::Weight};

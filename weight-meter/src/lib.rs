@@ -14,8 +14,8 @@
 //! `weight_meter::weight` attribute, and only when running benchmarks.
 //!
 //! 2. Create benchmarks using wasm_bencher and generate the weights with weight_gen
-//! After running the benchmarks and the weights have been generated then we can
-//! replace
+//!    After running the benchmarks and the weights have been generated then we can
+//!    replace
 //! ```ignore
 //! #[weight_meter::weight(0)]
 //! ```
@@ -25,22 +25,22 @@
 //! ```
 //!
 //! 3. Use WeightMeter on your calls by adding macro
-//! `#[weight_meter::start(weight)]` or `#[weight_meter::start]` if
-//! starts with zero and at the end use `weight_meter::used_weight()` to
-//! get used weight. ```ignore
-//! #[pallet::call]
-//! impl<T: Config> Pallet<T> {
-//!     #[pallet::weight(T::WeightInfo::do_something())]
-//!     #[weight_meter::start(ModuleWeights::<T>::do_something())]
-//!     pub fn do_something(origin: OriginFor<T>, something: u32) ->
-//!     DispatchResultWithPostInfo {
-//!         let who = ensure_signed(origin)?;
-//!         Self::inner_do_something(something);
-//!         // Emit an event.
-//!         Self::deposit_event(Event::SomethingStored(something, who));
-//!         Ok(PostDispatchInfo::from(Some(weight_meter::used_weight())))
-//!     }
-//! }
+//!    `#[weight_meter::start(weight)]` or `#[weight_meter::start]` if
+//!    starts with zero and at the end use `weight_meter::used_weight()` to
+//!    get used weight. ```ignore
+//!    #[pallet::call]
+//!    impl<T: Config> Pallet<T> {
+//!    #[pallet::weight(T::WeightInfo::do_something())]
+//!    #[weight_meter::start(ModuleWeights::<T>::do_something())]
+//!    pub fn do_something(origin: OriginFor<T>, something: u32) ->
+//!    DispatchResultWithPostInfo {
+//!    let who = ensure_signed(origin)?;
+//!    Self::inner_do_something(something);
+//!    // Emit an event.
+//!    Self::deposit_event(Event::SomethingStored(something, who));
+//!    Ok(PostDispatchInfo::from(Some(weight_meter::used_weight())))
+//!    }
+//!    }
 //! ```
 
 type Weight = u64;
