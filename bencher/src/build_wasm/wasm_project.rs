@@ -745,21 +745,21 @@ impl<'a> From<&'a cargo_metadata::Package> for DeduplicatePackage<'a> {
 	}
 }
 
-impl<'a> Hash for DeduplicatePackage<'a> {
+impl Hash for DeduplicatePackage<'_> {
 	fn hash<H: Hasher>(&self, state: &mut H) {
 		self.identifier.hash(state);
 	}
 }
 
-impl<'a> PartialEq for DeduplicatePackage<'a> {
+impl PartialEq for DeduplicatePackage<'_> {
 	fn eq(&self, other: &Self) -> bool {
 		self.identifier == other.identifier
 	}
 }
 
-impl<'a> Eq for DeduplicatePackage<'a> {}
+impl Eq for DeduplicatePackage<'_> {}
 
-impl<'a> Deref for DeduplicatePackage<'a> {
+impl Deref for DeduplicatePackage<'_> {
 	type Target = cargo_metadata::Package;
 
 	fn deref(&self) -> &Self::Target {
