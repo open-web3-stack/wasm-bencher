@@ -1,3 +1,5 @@
+#![allow(clippy::useless_conversion)]
+
 #[frame_support::pallet]
 pub mod test_module {
 	use frame_support::{dispatch::DispatchResultWithPostInfo, pallet_prelude::*, weights::Weight};
@@ -162,6 +164,7 @@ impl pallet_balances::Config for Runtime {
 	type FreezeIdentifier = ();
 	type MaxFreezes = ();
 	type WeightInfo = ();
+	type DoneSlashHandler = ();
 }
 
 impl test_module::Config for Runtime {}
@@ -184,6 +187,7 @@ impl ExtBuilder {
 
 		pallet_balances::GenesisConfig::<Runtime> {
 			balances: vec![(100, 100_000)],
+			..Default::default()
 		}
 		.assimilate_storage(&mut t)
 		.unwrap();

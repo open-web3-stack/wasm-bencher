@@ -187,12 +187,12 @@ fn main() {
 			.render_template_to_write(&template, &hbs_data, &mut output_file)
 			.expect("Unable to render template");
 		println!();
-		println!("Weights file `{}` was generated.", path);
+		println!("Weights file `{path}` was generated.");
 	} else {
 		let template_string = handlebars
 			.render_template(&template, &hbs_data)
 			.expect("Unable to render template");
 
-		println!("{}", template_string);
+		println!("{template_string}");
 	}
 }

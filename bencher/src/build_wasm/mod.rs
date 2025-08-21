@@ -123,7 +123,7 @@ pub fn build() -> std::io::Result<Vec<u8>> {
 	let cargo_cmd = match prerequisites::check() {
 		Ok(cmd) => cmd,
 		Err(err_msg) => {
-			eprintln!("{}", err_msg);
+			eprintln!("{err_msg}");
 			std::process::exit(1);
 		},
 	};

@@ -152,5 +152,5 @@ pub fn save_output_json(data: Vec<BenchData>, storage_infos: Vec<StorageMetadata
 	writer.write_all(b"\n").unwrap();
 	writer.flush().unwrap();
 
-	println!("\nOutput JSON file:\n{}", json_path);
+	println!("\nOutput JSON file:\n{json_path}");
 }

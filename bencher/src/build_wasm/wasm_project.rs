@@ -307,7 +307,7 @@ fn create_project_cargo_toml(
 	}
 
 	let mut package = Table::new();
-	package.insert("name".into(), format!("{}-wasm", crate_name).into());
+	package.insert("name".into(), format!("{crate_name}-wasm").into());
 	package.insert("version".into(), "1.0.0".into());
 	package.insert("edition".into(), "2021".into());
 
@@ -366,8 +366,7 @@ fn find_package_by_manifest_path<'a>(
 	if let Some(pkg) = pkgs_by_name.first() {
 		if pkgs_by_name.len() > 1 {
 			panic!(
-				"Found multiple packages matching the name {pkg_name} ({manifest_path:?}): {:?}",
-				pkgs_by_name
+				"Found multiple packages matching the name {pkg_name} ({manifest_path:?}): {pkgs_by_name:?}"
 			);
 		}
 		pkg
@@ -403,7 +402,7 @@ fn project_enabled_features(
 			// features already being present in nightly, we need this code to make
 			// runtimes compile with all the possible rustc versions.
 			if v.len() == 1
-				&& v.first().map_or(false, |v| *v == format!("dep:{}", f))
+				&& v.first().is_some_and(|v| *v == format!("dep:{f}"))
 				&& std_enabled.as_ref().map(|e| e.iter().any(|ef| ef == *f)).unwrap_or(false)
 			{
 				return false;
@@ -413,7 +412,7 @@ fn project_enabled_features(
 			// we need to check if the feature is enabled by checking the env variable.
 			*f != "std"
 				&& *f != "default"
-				&& env::var(format!("CARGO_FEATURE_{}", feature_env))
+				&& env::var(format!("CARGO_FEATURE_{feature_env}"))
 					.map(|v| v == "1")
 					.unwrap_or_default()
 		})
@@ -596,7 +595,7 @@ impl Profile {
 
 /// Check environment whether we should build without network
 fn offline_build() -> bool {
-	env::var(OFFLINE).map_or(false, |v| v == "true")
+	env::var(OFFLINE).is_ok_and(|v| v == "true")
 }
 
 /// Build the project to create the WASM binary.
@@ -675,10 +674,10 @@ fn compact_wasm_file(
 	let in_path = project
 		.join("target/wasm32-unknown-unknown")
 		.join(profile.directory())
-		.join(format!("{}.wasm", default_out_name));
+		.join(format!("{default_out_name}.wasm"));
 
 	let (wasm_compact_path, wasm_compact_compressed_path) = if profile.wants_compact() {
-		let wasm_compact_path = project.join(format!("{}.compact.wasm", out_name,));
+		let wasm_compact_path = project.join(format!("{out_name}.compact.wasm"));
 		wasm_opt::OptimizationOptions::new_opt_level_0()
 			.mvp_features_only()
 			.debug_info(true)
@@ -687,7 +686,7 @@ fn compact_wasm_file(
 			.expect("Failed to compact generated WASM binary.");
 
 		let wasm_compact_compressed_path =
-			project.join(format!("{}.compact.compressed.wasm", out_name));
+			project.join(format!("{out_name}.compact.compressed.wasm"));
 		if compress_wasm(&wasm_compact_path, &wasm_compact_compressed_path) {
 			(
 				Some(WasmBinary(wasm_compact_path)),
@@ -700,7 +699,7 @@ fn compact_wasm_file(
 		(None, None)
 	};
 
-	let bloaty_path = project.join(format!("{}.wasm", out_name));
+	let bloaty_path = project.join(format!("{out_name}.wasm"));
 	fs::copy(in_path, &bloaty_path).expect("Copying the bloaty file to the project dir.");
 
 	(
@@ -746,21 +745,21 @@ impl<'a> From<&'a cargo_metadata::Package> for DeduplicatePackage<'a> {
 	}
 }
 
-impl<'a> Hash for DeduplicatePackage<'a> {
+impl Hash for DeduplicatePackage<'_> {
 	fn hash<H: Hasher>(&self, state: &mut H) {
 		self.identifier.hash(state);
 	}
 }
 
-impl<'a> PartialEq for DeduplicatePackage<'a> {
+impl PartialEq for DeduplicatePackage<'_> {
 	fn eq(&self, other: &Self) -> bool {
 		self.identifier == other.identifier
 	}
 }
 
-impl<'a> Eq for DeduplicatePackage<'a> {}
+impl Eq for DeduplicatePackage<'_> {}
 
-impl<'a> Deref for DeduplicatePackage<'a> {
+impl Deref for DeduplicatePackage<'_> {
 	type Target = cargo_metadata::Package;
 
 	fn deref(&self) -> &Self::Target {
