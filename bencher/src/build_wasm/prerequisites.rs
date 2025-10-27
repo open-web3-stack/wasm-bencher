@@ -72,9 +72,7 @@ fn create_check_toolchain_project(project_dir: &Path) {
 	super::write_file_if_changed(
 		main_rs_file,
 		r#"
-			fn main() {
-				println!("{}", env!("RUSTC_VERSION"));
-			}
+			fn main() {}
 		"#,
 	);
 }
@@ -92,7 +90,6 @@ fn check_wasm_toolchain_installed(
 	let mut build_cmd = cargo_command.command();
 	build_cmd.args([
 		"build",
-		"--target=wasm32-unknown-unknown",
 		"--manifest-path",
 		&manifest_path,
 	]);

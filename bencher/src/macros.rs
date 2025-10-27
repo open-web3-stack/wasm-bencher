@@ -101,7 +101,6 @@ macro_rules! benches {
 
 
         #[cfg(target_arch = "wasm32")]
-        #[no_mangle]
         #[panic_handler]
         fn panic_handler(info: &::core::panic::PanicInfo) -> ! {
             let message = $crate::sp_std::alloc::format!("{}", info);
