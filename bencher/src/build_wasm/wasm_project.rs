@@ -713,7 +713,7 @@ fn compress_wasm(wasm_binary_path: &Path, compressed_binary_out_path: &Path) -> 
 	use sp_maybe_compressed_blob::CODE_BLOB_BOMB_LIMIT;
 
 	let data = fs::read(wasm_binary_path).expect("Failed to read WASM binary");
-	if let Some(compressed) = sp_maybe_compressed_blob::compress(&data, CODE_BLOB_BOMB_LIMIT) {
+	if let Some(compressed) = sp_maybe_compressed_blob::compress_strongly(&data, CODE_BLOB_BOMB_LIMIT) {
 		fs::write(compressed_binary_out_path, &compressed[..])
 			.expect("Failed to write WASM binary");
 
