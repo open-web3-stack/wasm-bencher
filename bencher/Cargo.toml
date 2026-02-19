@@ -7,6 +7,9 @@ version = "0.5.0"
 authors = ["Laminar Developers <hello@laminar.one>"]
 edition = "2021"
 
+[lints.rust]
+unexpected_cfgs = { level = "warn", check-cfg = ['cfg(substrate_runtime)'] }
+
 [dependencies]
 paste = "^1.0"
 build-helper = { version = "^0.1", optional = true }

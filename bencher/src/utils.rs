@@ -1,3 +1,6 @@
+use sp_runtime_interface::runtime_interface;
+use sp_runtime_interface::pass_by::AllocateAndReturnByCodec;
+use sp_runtime_interface::pass_by::PassFatPointerAndRead;
 use sp_std::vec::Vec;
 
 #[cfg(feature = "std")]
@@ -7,14 +10,17 @@ use super::tracker::BenchTrackerExt;
 #[cfg(feature = "std")]
 use sp_externalities::ExternalitiesExt;
 
-#[sp_runtime_interface::runtime_interface]
+#[runtime_interface]
 pub trait Bench {
-	fn print_error(message: Vec<u8>) {
-		let msg = String::from_utf8_lossy(&message);
-		eprintln!("{}", red_bold(&msg));
+	fn print_error(message: PassFatPointerAndRead<Vec<u8>>) {
+		#[cfg(feature = "std")]
+		{
+			let msg = String::from_utf8_lossy(&message);
+			eprintln!("{}", red_bold(&msg));
+		}
 	}
 
-	fn warnings(&mut self) -> Vec<u8> {
+	fn warnings(&mut self) -> AllocateAndReturnByCodec<Vec<u8>> {
 		let tracker = &***self
 			.extension::<BenchTrackerExt>()
 			.expect("No `bench_tracker` associated for the current context!");
@@ -41,11 +47,11 @@ pub trait Bench {
 		tracker.instant();
 	}
 
-	fn end_timer(&mut self) -> u128 {
+	fn end_timer(&mut self) -> u64 {
 		let tracker = &***self
 			.extension::<BenchTrackerExt>()
 			.expect("No `bench_tracker` associated for the current context!");
-		tracker.elapsed()
+		tracker.elapsed() as u64
 	}
 
 	fn before_block(&mut self) {
@@ -62,21 +68,21 @@ pub trait Bench {
 		tracker.after_block();
 	}
 
-	fn redundant_time(&mut self) -> u128 {
+	fn redundant_time(&mut self) -> u64 {
 		let tracker = &***self
 			.extension::<BenchTrackerExt>()
 			.expect("No `bench_tracker` associated for the current context!");
-		tracker.redundant_time()
+		tracker.redundant_time() as u64
 	}
 
-	fn read_written_keys(&mut self) -> Vec<u8> {
+	fn read_written_keys(&mut self) -> AllocateAndReturnByCodec<Vec<u8>> {
 		let tracker = &***self
 			.extension::<BenchTrackerExt>()
 			.expect("No `bench_tracker` associated for the current context!");
 		tracker.read_written_keys()
 	}
 
-	fn whitelist(&mut self, key: Vec<u8>, read: bool, write: bool) {
+	fn whitelist(&mut self, key: PassFatPointerAndRead<Vec<u8>>, read: bool, write: bool) {
 		let tracker = &***self
 			.extension::<BenchTrackerExt>()
 			.expect("No `bench_tracker` associated for the current context!");

@@ -614,7 +614,7 @@ fn build_project(
 	);
 
 	build_cmd
-		.args(["rustc", "--target=wasm32-unknown-unknown"])
+		.args(["rustc", "--target=wasm32v1-none"])
 		.arg(format!("--manifest-path={}", manifest_path.display()))
 		.env("RUSTFLAGS", rustflags)
 		// Unset the `CARGO_TARGET_DIR` to prevent a cargo deadlock (cargo locks a target dir
@@ -672,7 +672,7 @@ fn compact_wasm_file(
 	let default_out_name = get_wasm_binary_name(cargo_manifest);
 	let out_name = out_name.unwrap_or_else(|| default_out_name.clone());
 	let in_path = project
-		.join("target/wasm32-unknown-unknown")
+		.join("target/wasm32v1-none")
 		.join(profile.directory())
 		.join(format!("{default_out_name}.wasm"));
 
@@ -713,7 +713,7 @@ fn compress_wasm(wasm_binary_path: &Path, compressed_binary_out_path: &Path) -> 
 	use sp_maybe_compressed_blob::CODE_BLOB_BOMB_LIMIT;
 
 	let data = fs::read(wasm_binary_path).expect("Failed to read WASM binary");
-	if let Some(compressed) = sp_maybe_compressed_blob::compress(&data, CODE_BLOB_BOMB_LIMIT) {
+	if let Some(compressed) = sp_maybe_compressed_blob::compress_strongly(&data, CODE_BLOB_BOMB_LIMIT) {
 		fs::write(compressed_binary_out_path, &compressed[..])
 			.expect("Failed to write WASM binary");
 
